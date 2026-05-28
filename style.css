@@ -167,11 +167,12 @@
   }
   .lock-subtitle {
     font-size: 0.78rem;
-    color: rgba(232,213,245,0.6);
-    margin-bottom: 36px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+     color: rgba(232,213,245,0.6);
+     margin-bottom: 36px;
+     letter-spacing: 2px;
+     text-transform: uppercase;
   }
+
   .input-wrap {
     position: relative;
     margin-bottom: 20px;
@@ -245,7 +246,10 @@
   /* ENVELOPE SCREEN */
   #envelope-screen { z-index: 15; }
   .envelope-container {
-    display: flex; flex-direction: column; align-items: center; gap: 30px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 30px;
     cursor: grab;
   }
   .envelope-hint {
@@ -303,14 +307,16 @@
     opacity: 0;
   }
   .envelope-left-fold {
-    position: absolute; bottom: 0; left: 0;
+    position: absolute; 
+    bottom: 10px; left: 0;
     width: 50%; height: 55%;
     background: linear-gradient(135deg, #d0b0e0, #c4a0d8);
     clip-path: polygon(0 100%, 100% 0, 0 0);
     z-index: 1;
   }
   .envelope-right-fold {
-    position: absolute; bottom: 0; right: 0;
+    position: absolute; 
+    bottom: 10px; right: 0;
     width: 50%; height: 55%;
     background: linear-gradient(225deg, #d0b0e0, #c4a0d8);
     clip-path: polygon(100% 100%, 0 0, 100% 0);
