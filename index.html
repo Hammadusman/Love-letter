@@ -57,7 +57,6 @@
 
 <!-- LETTER SCREEN -->
 <div class="screen hidden" id="letter-screen">
-  <button class="music-btn" id="music-btn" title="Toggle Music">🎵</button>
 
   <div class="letter-container">
     <div class="letter-paper">
@@ -139,10 +138,38 @@
 </div>
 
 <!-- Hidden audio -->
-<audio autoplay loop>
+<audio id="bg-music" loop>
   <source src="music/I Like You So Much You'll Know It [Karaoke Acoustic] - Ysabelle Cuevas [Female Key  HQ Audio] - Gitaris Laperan.mp3" type="audio/mpeg">
 </audio>
 
 <script src="script.js"></script>
+
+<script>
+const bgMusic = document.getElementById('bg-music');
+
+window.addEventListener('load', () => {
+
+  bgMusic.volume = 0.3;
+
+  // try autoplay
+  const playPromise = bgMusic.play();
+
+  // if browser blocks autoplay
+  if (playPromise !== undefined) {
+
+    playPromise.catch(() => {
+
+      // auto play after first interaction
+      document.addEventListener('click', () => {
+        bgMusic.play();
+      }, { once: true });
+
+    });
+
+  }
+
+});
+</script>
+
 </body>
 </html>
