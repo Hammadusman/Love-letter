@@ -254,7 +254,7 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     color: white;
-    cursor: none;
+    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 8px 30px rgba(155,114,207,0.4);
     margin-top: 8px;
