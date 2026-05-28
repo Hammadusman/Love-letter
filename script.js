@@ -1,0 +1,341 @@
+// CURSOR
+/* const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  setTimeout(() => {
+    trail.style.left = mx + 'px';
+    trail.style.top = my + 'px';
+  }, 80);
+}); */
+////////////////////////////////////////////////////////////////////////
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+
+let mx = 0, my = 0;
+
+// Detect mobile
+const isMobile = window.matchMedia("(pointer: coarse)").matches;
+
+// DESKTOP
+if (!isMobile) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+
+    cursor.style.display = 'block';
+    trail.style.display = 'block';
+
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+
+    setTimeout(() => {
+      trail.style.left = mx + 'px';
+      trail.style.top = my + 'px';
+    }, 80);
+  });
+}
+
+// MOBILE
+else {
+  // Hide by default
+  cursor.style.display = 'none';
+  trail.style.display = 'none';
+
+  document.addEventListener('touchstart', e => {
+    const touch = e.touches[0];
+
+    cursor.style.display = 'block';
+    trail.style.display = 'block';
+
+    cursor.style.left = touch.clientX + 'px';
+    cursor.style.top = touch.clientY + 'px';
+
+    trail.style.left = touch.clientX + 'px';
+    trail.style.top = touch.clientY + 'px';
+  });
+
+  document.addEventListener('touchmove', e => {
+    const touch = e.touches[0];
+
+    cursor.style.left = touch.clientX + 'px';
+    cursor.style.top = touch.clientY + 'px';
+
+    setTimeout(() => {
+      trail.style.left = touch.clientX + 'px';
+      trail.style.top = touch.clientY + 'px';
+    }, 80);
+  });
+
+  // Hide again when not touching
+  document.addEventListener('touchend', () => {
+    cursor.style.display = 'none';
+    trail.style.display = 'none';
+  });
+}
+ /////////////////////////////////////////////////////////////////////
+// STARS
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      animation-duration:${2 + Math.random()*4}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    container.appendChild(s);
+  }
+}
+createStars();
+
+// PARTICLES
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['rgba(200,168,233,0.6)','rgba(240,160,200,0.5)','rgba(255,255,255,0.4)','rgba(180,140,220,0.5)'];
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${8 + Math.random()*12}s;
+      animation-delay:${Math.random()*10}s;
+      box-shadow: 0 0 ${size*3}px ${colors[Math.floor(Math.random()*colors.length)]};
+    `;
+    container.appendChild(p);
+  }
+}
+createParticles();
+
+// FLOATING HEARTS on letter screen
+function spawnHeart(container) {
+  const h = document.createElement('div');
+  h.className = 'float-heart';
+  h.textContent = ['💜','🤍','♡','✦','✧'][Math.floor(Math.random()*5)];
+  h.style.cssText = `
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*20}%;
+    font-size:${0.7 + Math.random()*0.8}rem;
+    animation-duration:${3 + Math.random()*3}s;
+    animation-delay:${Math.random()*2}s;
+  `;
+  container.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}
+
+// SCREEN MANAGEMENT
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.add('hidden');
+    s.classList.remove('slide-up');
+  });
+  const target = document.getElementById(id);
+  target.classList.remove('hidden', 'slide-up');
+}
+
+function transitionScreens(from, to, effect='fade') {
+  const fromEl = document.getElementById(from);
+  const toEl = document.getElementById(to);
+  if (effect === 'up') {
+    fromEl.classList.add('slide-up');
+  } else {
+    fromEl.classList.add('hidden');
+  }
+  setTimeout(() => {
+    fromEl.style.display = 'none';
+    toEl.classList.remove('hidden', 'slide-up');
+    toEl.style.display = '';
+  }, 800);
+}
+
+// LOADING
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    transitionScreens('loading-screen', 'lock-screen');
+    document.getElementById('lock-screen').style.display = '';
+  }, 2800);
+});
+
+// LOCK SCREEN
+const lockInput = document.getElementById('lock-input');
+const errorMsg = document.getElementById('error-msg');
+const unlockBtn = document.getElementById('unlock-btn');
+const CORRECT_CODE = '063019';
+
+function tryUnlock() {
+  const val = lockInput.value.trim();
+  if (val === CORRECT_CODE) {
+    lockInput.style.borderColor = 'rgba(200,168,233,0.8)';
+    unlockBtn.textContent = '💜 Opening...';
+    setTimeout(() => {
+      transitionScreens('lock-screen', 'envelope-screen', 'up');
+    }, 600);
+  } else {
+    lockInput.classList.add('shake');
+    errorMsg.classList.add('show');
+    lockInput.value = '';
+    setTimeout(() => {
+      lockInput.classList.remove('shake');
+    }, 600);
+  }
+}
+
+unlockBtn.addEventListener('click', tryUnlock);
+lockInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+lockInput.addEventListener('input', () => { errorMsg.classList.remove('show'); });
+
+// ENVELOPE
+const envelopeWrap = document.getElementById('envelope-wrap');
+let envelopeOpened = false;
+envelopeWrap.addEventListener('click', () => {
+  if (envelopeOpened) return;
+  envelopeOpened = true;
+  envelopeWrap.classList.add('opening');
+  // playSound
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(523, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+    osc.start(); osc.stop(ctx.currentTime + 0.6);
+  } catch(e) {}
+
+  setTimeout(() => {
+    transitionScreens('envelope-screen', 'letter-screen');
+    startLetterAnimations();
+    startFloatingHearts();
+  }, 900);
+});
+
+// LETTER ANIMATIONS
+function startLetterAnimations() {
+  // Typing effect for title
+  const title = "My Favorite Person";
+  const titleEl = document.getElementById('typed-title');
+  const typeCursor = document.getElementById('type-cursor');
+  let i = 0;
+  const typeInterval = setInterval(() => {
+    if (i < title.length) {
+      titleEl.textContent += title[i];
+      i++;
+    } else {
+      clearInterval(typeInterval);
+      setTimeout(() => typeCursor.style.display = 'none', 1200);
+      document.getElementById('title-underline').classList.add('expanded');
+    }
+  }, 80);
+
+  // Stagger paragraphs
+  const elements = [
+    { id: 'salutation', delay: 1800 },
+    { id: 'p1', delay: 2400 },
+    { id: 'p2', delay: 3200 },
+    { id: 'divider1', delay: 3900 },
+    { id: 'p3', delay: 4500 },
+    { id: 'p4', delay: 5300 },
+    { id: 'hearts-row', delay: 6000 },
+    { id: 'p5', delay: 6600 },
+    { id: 'p6', delay: 7300 },
+    { id: 'divider2', delay: 7900 },
+    { id: 'signature', delay: 8500 },
+    { id: 'letter-date', delay: 400 },
+  ];
+  elements.forEach(({ id, delay }) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.opacity = '0';
+        el.style.animation = `fadeUp 0.9s cubic-bezier(0.23,1,0.32,1) forwards`;
+      }
+    }, delay);
+  });
+}
+
+function startFloatingHearts() {
+  const letterScreen = document.getElementById('letter-screen');
+  setInterval(() => spawnHeart(letterScreen), 2000);
+}
+
+// MUSIC TOGGLE
+const musicBtn = document.getElementById('music-btn');
+const bgMusic = document.getElementById('bg-music');
+let musicPlaying = false;
+
+// Generate ambient tone with Web Audio API instead
+let audioCtx, masterGain;
+
+function createAmbientMusic() {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0;
+    masterGain.connect(audioCtx.destination);
+
+    const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
+    function playNote() {
+      if (!musicPlaying) return;
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      osc.type = 'sine';
+      osc.frequency.value = notes[Math.floor(Math.random() * notes.length)];
+      g.gain.setValueAtTime(0, audioCtx.currentTime);
+      g.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.5);
+      g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2.5);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 3);
+      if (musicPlaying) setTimeout(playNote, 1500 + Math.random() * 1500);
+    }
+    playNote();
+  } catch(e) {}
+}
+
+musicBtn.addEventListener('click', () => {
+  musicPlaying = !musicPlaying;
+  if (musicPlaying) {
+    musicBtn.textContent = '🎶';
+    musicBtn.classList.add('playing');
+    if (!audioCtx) createAmbientMusic();
+    else {
+      if (masterGain) masterGain.gain.setTargetAtTime(1, audioCtx.currentTime, 0.5);
+    }
+    // restart note loop
+    if (audioCtx) createAmbientMusic();
+  } else {
+    musicBtn.textContent = '🎵';
+    musicBtn.classList.remove('playing');
+    if (masterGain) masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+  }
+});
+
+// PARALLAX
+document.addEventListener('mousemove', e => {
+  const xRatio = (e.clientX / window.innerWidth - 0.5) * 20;
+  const yRatio = (e.clientY / window.innerHeight - 0.5) * 20;
+  document.querySelectorAll('.deco-circle').forEach((el, i) => {
+    const factor = i === 0 ? 1 : -0.7;
+    el.style.transform = `translate(${xRatio * factor}px, ${yRatio * factor}px)`;
+  });
+});
+
+// Touch support for cursor
+document.addEventListener('touchmove', e => {
+  const t = e.touches[0];
+  cursor.style.left = t.clientX + 'px';
+  cursor.style.top = t.clientY + 'px';
+}, { passive: true });
