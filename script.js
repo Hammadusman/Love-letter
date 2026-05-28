@@ -11,73 +11,7 @@ document.addEventListener('mousemove', e => {
     trail.style.top = my + 'px';
   }, 80);
 }); */
-////////////////////////////////////////////////////////////////////////
 
-// CURSOR
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
-
-let mx = 0, my = 0;
-
-// Detect mobile
-const isMobile = window.matchMedia("(pointer: coarse)").matches;
-
-// DESKTOP
-if (!isMobile) {
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-
-    cursor.style.display = 'block';
-    trail.style.display = 'block';
-
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-
-    setTimeout(() => {
-      trail.style.left = mx + 'px';
-      trail.style.top = my + 'px';
-    }, 80);
-  });
-}
-
-// MOBILE
-else {
-  // Hide by default
-  cursor.style.display = 'none';
-  trail.style.display = 'none';
-
-  document.addEventListener('touchstart', e => {
-    const touch = e.touches[0];
-
-    cursor.style.display = 'block';
-    trail.style.display = 'block';
-
-    cursor.style.left = touch.clientX + 'px';
-    cursor.style.top = touch.clientY + 'px';
-
-    trail.style.left = touch.clientX + 'px';
-    trail.style.top = touch.clientY + 'px';
-  });
-
-  document.addEventListener('touchmove', e => {
-    const touch = e.touches[0];
-
-    cursor.style.left = touch.clientX + 'px';
-    cursor.style.top = touch.clientY + 'px';
-
-    setTimeout(() => {
-      trail.style.left = touch.clientX + 'px';
-      trail.style.top = touch.clientY + 'px';
-    }, 80);
-  });
-
-  // Hide again when not touching
-  document.addEventListener('touchend', () => {
-    cursor.style.display = 'none';
-    trail.style.display = 'none';
-  });
-}
  /////////////////////////////////////////////////////////////////////
 // STARS
 function createStars() {
