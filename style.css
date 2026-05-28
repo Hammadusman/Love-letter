@@ -379,26 +379,7 @@
     margin: 0 auto;
   }
   .music-btn {
-    position: fixed; top: 24px; right: 24px;
-    z-index: 50;
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    display: none; 
-    align-items: center; 
-    justify-content: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(155,114,207,0.3);
-  }
-  .music-btn:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(155,114,207,0.5); }
-  .music-btn.playing { animation: musicPulse 1.5s ease-in-out infinite; }
-  @keyframes musicPulse {
-    0%,100% { box-shadow: 0 4px 20px rgba(155,114,207,0.3); }
-    50% { box-shadow: 0 4px 30px rgba(240,160,200,0.6); }
+    display: none;
   }
 
   .stars-bg { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
