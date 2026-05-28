@@ -1,18 +1,3 @@
-// CURSOR
-/* const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
-let mx = 0, my = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
-  setTimeout(() => {
-    trail.style.left = mx + 'px';
-    trail.style.top = my + 'px';
-  }, 80);
-}); */
-
- /////////////////////////////////////////////////////////////////////
 // STARS
 function createStars() {
   const container = document.getElementById('stars');
@@ -205,71 +190,5 @@ function startFloatingHearts() {
   setInterval(() => spawnHeart(letterScreen), 2000);
 }
 
-// MUSIC TOGGLE
-const musicBtn = document.getElementById('music-btn');
-const bgMusic = document.getElementById('bg-music');
-let musicPlaying = false;
-
 // Generate ambient tone with Web Audio API instead
 let audioCtx, masterGain;
-
-function createAmbientMusic() {
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0;
-    masterGain.connect(audioCtx.destination);
-
-    const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
-    function playNote() {
-      if (!musicPlaying) return;
-      const osc = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      osc.connect(g); g.connect(masterGain);
-      osc.type = 'sine';
-      osc.frequency.value = notes[Math.floor(Math.random() * notes.length)];
-      g.gain.setValueAtTime(0, audioCtx.currentTime);
-      g.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.5);
-      g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2.5);
-      osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime + 3);
-      if (musicPlaying) setTimeout(playNote, 1500 + Math.random() * 1500);
-    }
-    playNote();
-  } catch(e) {}
-}
-
-musicBtn.addEventListener('click', () => {
-  musicPlaying = !musicPlaying;
-  if (musicPlaying) {
-    musicBtn.textContent = '🎶';
-    musicBtn.classList.add('playing');
-    if (!audioCtx) createAmbientMusic();
-    else {
-      if (masterGain) masterGain.gain.setTargetAtTime(1, audioCtx.currentTime, 0.5);
-    }
-    // restart note loop
-    if (audioCtx) createAmbientMusic();
-  } else {
-    musicBtn.textContent = '🎵';
-    musicBtn.classList.remove('playing');
-    if (masterGain) masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
-  }
-});
-
-// PARALLAX
-document.addEventListener('mousemove', e => {
-  const xRatio = (e.clientX / window.innerWidth - 0.5) * 20;
-  const yRatio = (e.clientY / window.innerHeight - 0.5) * 20;
-  document.querySelectorAll('.deco-circle').forEach((el, i) => {
-    const factor = i === 0 ? 1 : -0.7;
-    el.style.transform = `translate(${xRatio * factor}px, ${yRatio * factor}px)`;
-  });
-});
-
-// Touch support for cursor
-document.addEventListener('touchmove', e => {
-  const t = e.touches[0];
-  cursor.style.left = t.clientX + 'px';
-  cursor.style.top = t.clientY + 'px';
-}, { passive: true });
