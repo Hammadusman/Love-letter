@@ -151,17 +151,17 @@ function startLetterAnimations() {
 
   // Stagger paragraphs
   const elements = [
-    { id: 'salutation', delay: 1800 },
+    { id: 'salutation', delay: 2000 },
     { id: 'p1', delay: 2400 },
     { id: 'p2', delay: 3200 },
     { id: 'divider1', delay: 3900 },
     { id: 'p3', delay: 4500 },
-    { id: 'p4', delay: 5300 },
-    { id: 'hearts-row', delay: 6000 },
-    { id: 'p5', delay: 6600 },
-    { id: 'p6', delay: 7300 },
-    { id: 'divider2', delay: 7900 },
-    { id: 'signature', delay: 8500 },
+    // { id: 'p4', delay: 5300 },
+    { id: 'hearts-row', delay: 5300 },
+    // { id: 'p5', delay: 6600 },
+    // { id: 'p6', delay: 7300 },
+    { id: 'divider2', delay: 6000 },
+    { id: 'signature', delay: 7500 },
     { id: 'letter-date', delay: 400 },
   ];
   elements.forEach(({ id, delay }) => {
@@ -180,6 +180,4 @@ function startFloatingHearts() {
   setInterval(() => spawnHeart(letterScreen), 2000);
 }
 
-// Generate ambient tone with Web Audio API instead
-let audioCtx, masterGain;
 
