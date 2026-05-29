@@ -91,6 +91,34 @@
     pointer-events: none;
   }
 
+  .countdown-timer{
+    margin-top:15px;
+    font-family:'Montserrat',sans-serif;
+    font-size:1rem;
+    color:white;
+    letter-spacing:2px;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+
+.loading-bar{
+    width:260px;
+    height:8px;
+    background:rgba(255,255,255,0.15);
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:20px;
+    backdrop-filter:blur(5px);
+}
+
+.loading-fill{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#c084fc,#f9a8d4);
+    transition:width 1s linear;
+    box-shadow:0 0 20px rgba(192,132,252,0.8);
+}
+
   /* LOADING SCREEN */
   #loading-screen { z-index: 100; }
   .loading-content {
