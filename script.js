@@ -123,18 +123,6 @@ envelopeWrap.addEventListener('click', () => {
   if (envelopeOpened) return;
   envelopeOpened = true;
   envelopeWrap.classList.add('opening');
-  // playSound
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.frequency.setValueAtTime(523, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3);
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-    osc.start(); osc.stop(ctx.currentTime + 0.6);
-  } catch(e) {}
 
   setTimeout(() => {
     transitionScreens('envelope-screen', 'letter-screen');
