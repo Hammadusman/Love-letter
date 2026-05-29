@@ -114,6 +114,8 @@ unlockBtn.addEventListener('click', tryUnlock);
 lockInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 lockInput.addEventListener('input', () => { errorMsg.classList.remove('show'); });
 
+
+
 // ENVELOPE
 const envelopeWrap = document.getElementById('envelope-wrap');
 let envelopeOpened = false;
@@ -193,11 +195,3 @@ function startFloatingHearts() {
 // Generate ambient tone with Web Audio API instead
 let audioCtx, masterGain;
 
-  // Get the envelope and audio elements
-  const envelopeWrap = document.getElementById("envelope-wrap");
-  const bgMusic = document.getElementById("bg-music");
-
-  // Play music when envelope is clicked
-  envelopeWrap.addEventListener("click", () => {
-    bgMusic.play();
-  });
